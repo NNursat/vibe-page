@@ -22,7 +22,7 @@ export default async function handler(req, res) {
         const accessToken = tokenData.access_token;
 
         // 3. Запрашиваем альбомы/синглы артиста
-        const apiResponse = await fetch(`http://googleusercontent.com/spotify.com/6`, {
+        const apiResponse = await fetch(`https://api.spotify.com/v1/artists/${artist_id}/albums?include_groups=album,single,ep&market=US&limit=10`, {
             headers: {
                 'Authorization': 'Bearer ' + accessToken
             }
