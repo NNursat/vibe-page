@@ -1,14 +1,13 @@
 export default async function handler(req, res) {
-    // 1. Получаем секретные ключи из настроек Vercel (см. Шаг 4)
     const client_id = process.env.SPOTIFY_CLIENT_ID;
     const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
     
-    // Ваш Spotify Artist ID (можно найти в ссылке на профиль артиста)
-    // Пример: open.spotify.com/artist/YOUR_ID_HERE
-    const artist_id = '6eAmPXwxNuj3OuHLPClog7?si=EAoFOL1GS62jUzS9J3XzHw'; // <-- ЗАМЕНИТЕ НА ID AVA11
+    // Вставьте сюда реальный ID артиста AVA11
+    // Если не знаете, используйте этот ID для теста (The Weeknd): '1Xyo4u8uXC1ZmMpatF05PJ'
+    const artist_id = '1Xyo4u8uXC1ZmMpatF05PJ'; 
 
     try {
-        // 2. Запрашиваем токен доступа (Access Token)
+        // 1. Получаем токен (Правильная ссылка!)
         const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
             method: 'POST',
             headers: {
@@ -19,9 +18,14 @@ export default async function handler(req, res) {
         });
 
         const tokenData = await tokenResponse.json();
+        
+        if (!tokenData.access_token) {
+            throw new Error('Failed to get access token');
+        }
+
         const accessToken = tokenData.access_token;
 
-        // 3. Запрашиваем альбомы/синглы артиста
+        // 2. Получаем релизы (Правильная ссылка!)
         const apiResponse = await fetch(`https://api.spotify.com/v1/artists/${artist_id}/albums?include_groups=album,single,ep&market=US&limit=10`, {
             headers: {
                 'Authorization': 'Bearer ' + accessToken
@@ -30,11 +34,15 @@ export default async function handler(req, res) {
 
         const musicData = await apiResponse.json();
 
-        // 4. Отдаем данные нашему сайту
+        if (musicData.error) {
+             throw new Error(musicData.error.message);
+        }
+
+        // 3. Отдаем данные
         res.status(200).json(musicData.items);
 
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Failed to fetch data' });
+        console.error('Backend Error:', error);
+        res.status(500).json({ error: error.message });
     }
 }
