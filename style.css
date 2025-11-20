@@ -1,0 +1,199 @@
+/* --- CSS Variables & Reset --- */
+:root {
+    --bg-color: #050505;
+    --text-color: #e0e0e0;
+    --accent-color: #1DB954; /* Spotify Green */
+    --card-bg: #121212;
+    --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+ul { list-style: none; }
+
+/* --- Animations --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: var(--transition);
+}
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Header --- */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    mix-blend-mode: difference;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+}
+
+.socials a {
+    margin-left: 20px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+.socials a:hover { opacity: 1; }
+
+/* --- Hero Section --- */
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.hero h1 {
+    font-size: 8vw;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+    background: linear-gradient(45deg, #fff, #666);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeIn 1.5s ease-out forwards;
+}
+
+.hero p {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-out 0.5s forwards;
+    color: #888;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: fadeIn 1.5s ease-out 1s forwards;
+    opacity: 0;
+}
+
+/* --- Releases Section --- */
+.releases {
+    padding: 100px 5vw;
+    min-height: 100vh;
+}
+
+.section-title {
+    font-size: 2rem;
+    margin-bottom: 60px;
+    font-weight: 300;
+    border-bottom: 1px solid #333;
+    padding-bottom: 20px;
+    display: inline-block;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.loading-text {
+    color: #666;
+    grid-column: 1/-1;
+}
+
+/* --- Cards --- */
+.card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: var(--transition);
+    cursor: pointer;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.card img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    filter: grayscale(20%);
+    transition: 0.4s;
+}
+
+.card:hover img {
+    filter: grayscale(0%);
+}
+
+.card-info {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.card-meta {
+    font-size: 0.9rem;
+    color: #666;
+    display: flex;
+    justify-content: space-between;
+}
+
+.spotify-btn {
+    display: inline-block;
+    margin-top: 15px;
+    font-size: 0.8rem;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+.spotify-btn:hover {
+    background: var(--accent-color);
+    color: #000;
+}
+
+/* --- Footer --- */
+footer {
+    padding: 50px 0;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #444;
+}
